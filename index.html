@@ -64,7 +64,7 @@ section{padding:5.5rem 2.5rem;max-width:1000px;margin:0 auto}
 
 /* PHOTO */
 .hero-photo{position:relative;justify-self:end}
-.hero-photo img{width:300px;height:400px;object-fit:cover;border-radius:10px;border:1px solid var(--border);display:block;filter:grayscale(15%);transition:filter .3s}
+.hero-photo img{width:300px;height:400px;object-fit:cover;border-radius:10px;border:1px solid var(--border);display:block;filter:grayscale(15%);transition:filter .3s;cursor:zoom-in}
 .hero-photo img:hover{filter:grayscale(0%)}
 .hero-photo::before{content:'';position:absolute;inset:-5px;border:1px solid var(--border);border-radius:13px;z-index:-1}
 .photo-placeholder{width:300px;height:400px;border-radius:10px;border:1px solid var(--border);background:var(--bg3);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem;font-family:'Space Mono',monospace;font-size:.6rem;color:var(--text3);letter-spacing:.06em;text-align:center;padding:1rem}
@@ -116,7 +116,7 @@ section{padding:5.5rem 2.5rem;max-width:1000px;margin:0 auto}
 
 /* PROJECTS */
 .projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(400px,1fr));gap:1.25rem}
-.project-card{border:1px solid var(--border);border-radius:10px;overflow:hidden;background:var(--bg2);transition:border-color .25s,transform .25s;display:flex;flex-direction:column}
+.project-card{border:1px solid var(--border);border-radius:10px;overflow:hidden;background:var(--bg2);transition:border-color .25s,transform .25s;display:flex;flex-direction:column;cursor:pointer}
 .project-card:hover{border-color:var(--border-h);transform:translateY(-3px)}
 .project-slideshow{width:100%;aspect-ratio:16/9;min-height:155px;position:relative;overflow:hidden;background:var(--bg3);border-bottom:1px solid var(--border)}
 .project-slideshow::after{content:attr(data-label);position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:.63rem;color:var(--text3);letter-spacing:.1em;text-transform:uppercase;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:24px 24px;z-index:0}
@@ -192,6 +192,35 @@ footer{border-top:1px solid var(--border);padding:1.5rem 2.5rem;display:flex;ali
   .experience-item{grid-template-columns:1fr;gap:.4rem}
   footer{flex-direction:column;gap:.5rem;text-align:center}
 }
+
+/* PHOTO LIGHTBOX */
+.photo-lightbox{display:none;position:fixed;inset:0;z-index:600;background:rgba(0,0,0,.92);align-items:center;justify-content:center;padding:1.5rem;cursor:zoom-out}
+.photo-lightbox.open{display:flex}
+.photo-lightbox img{max-width:90vw;max-height:90vh;object-fit:contain;border-radius:8px;border:1px solid var(--border);box-shadow:0 25px 80px rgba(0,0,0,.6);pointer-events:none}
+.photo-lightbox-close{position:absolute;top:1.25rem;right:1.25rem;background:var(--bg2);border:1px solid var(--border);color:var(--text2);cursor:pointer;width:36px;height:36px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:16px;transition:border-color .2s,color .2s;z-index:1}
+.photo-lightbox-close:hover{border-color:var(--border-h);color:var(--text)}
+
+/* PROJECT POPUP MODAL */
+.project-modal{display:none;position:fixed;inset:0;z-index:550;background:rgba(0,0,0,.88);align-items:center;justify-content:center;padding:1.5rem}
+.project-modal.open{display:flex}
+.project-modal-inner{width:100%;max-width:900px;max-height:92vh;background:var(--bg2);border:1px solid var(--border);border-radius:12px;display:flex;flex-direction:column;overflow:hidden}
+.project-modal-header{display:flex;align-items:center;justify-content:space-between;padding:.85rem 1.2rem;border-bottom:1px solid var(--border);flex-shrink:0}
+.project-modal-title{font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:700;color:var(--text)}
+.project-modal-body{display:flex;flex-direction:column;overflow-y:auto;flex:1}
+.project-modal-slideshow{width:100%;aspect-ratio:16/9;position:relative;overflow:hidden;background:var(--bg3);flex-shrink:0}
+.project-modal-slideshow::after{content:attr(data-label);position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:.63rem;color:var(--text3);letter-spacing:.1em;text-transform:uppercase;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:24px 24px;z-index:0}
+.project-modal-slideshow img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .4s;pointer-events:none;z-index:1}
+.project-modal-slideshow img.active{opacity:1}
+.project-modal-slideshow .slide-btn{width:32px;height:32px;font-size:13px}
+.project-modal-slideshow .slide-btn.prev{left:10px}
+.project-modal-slideshow .slide-btn.next{right:10px}
+.project-modal-info{padding:1.5rem 1.5rem 1.75rem}
+.project-modal-desc{font-size:.92rem;color:var(--text2);line-height:1.8;margin-bottom:1.1rem}
+.project-modal-tags{display:flex;flex-wrap:wrap;gap:.35rem}
+@media(max-width:750px){
+  .project-modal{padding:.75rem}
+  .project-modal-info{padding:1rem 1rem 1.25rem}
+}
 </style>
 </head>
 <body>
@@ -231,7 +260,7 @@ footer{border-top:1px solid var(--border);padding:1.5rem 2.5rem;display:flex;ali
     </div>
   </div>
   <div class="hero-photo">
-    <img src="images/profile.jpg" alt="Andre D. Sombillo" onerror="this.outerHTML='<div class=\'photo-placeholder\'>&#128247;<br><span style=\'margin-top:.5rem;display:block\'>Add profile.jpg<br>to images/ folder</span></div>'">
+    <img src="images/profile.jpg" alt="Andre D. Sombillo" id="profilePhoto" onerror="this.outerHTML='<div class=\'photo-placeholder\'>&#128247;<br><span style=\'margin-top:.5rem;display:block\'>Add profile.jpg<br>to images/ folder</span></div>'">
   </div>
 </section>
 
@@ -383,7 +412,7 @@ footer{border-top:1px solid var(--border);padding:1.5rem 2.5rem;display:flex;ali
     <div class="section-line"></div>
   </div>
   <div class="projects-grid">
-    <div class="project-card fade-in">
+    <div class="project-card fade-in" data-project="intellisort">
       <div class="project-slideshow" data-slide="0" data-label="IntelliSort">
         <img src="images/intellisort-1.jpg" alt="IntelliSort 1" class="active">
         <img src="images/intellisort-2.jpg" alt="IntelliSort 2">
@@ -410,7 +439,7 @@ footer{border-top:1px solid var(--border);padding:1.5rem 2.5rem;display:flex;ali
         </div>
       </div>
     </div>
-    <div class="project-card fade-in">
+    <div class="project-card fade-in" data-project="glucs">
       <div class="project-slideshow" data-slide="0" data-label="GLUCS">
         <img src="images/glucs-1.jpg" alt="GLUCS 1" class="active">
         <img src="images/glucs-2.jpg" alt="GLUCS 2">
@@ -435,7 +464,7 @@ footer{border-top:1px solid var(--border);padding:1.5rem 2.5rem;display:flex;ali
         </div>
       </div>
     </div>
-    <div class="project-card fade-in">
+    <div class="project-card fade-in" data-project="solar">
       <div class="project-slideshow" data-slide="0" data-label="Solar Seeker">
         <img src="images/solar-1.jpg" alt="Solar Seeker 1" class="active">
         <img src="images/solar-2.jpg" alt="Solar Seeker 2">
@@ -460,7 +489,7 @@ footer{border-top:1px solid var(--border);padding:1.5rem 2.5rem;display:flex;ali
         </div>
       </div>
     </div>
-    <div class="project-card fade-in">
+    <div class="project-card fade-in" data-project="pcb">
       <div class="project-slideshow" data-slide="0" data-label="PCB Design">
         <img src="images/pcb-1.jpg" alt="PCB Design 1" class="active">
         <img src="images/pcb-2.jpg" alt="PCB Design 2">
@@ -556,13 +585,6 @@ footer{border-top:1px solid var(--border);padding:1.5rem 2.5rem;display:flex;ali
         <span class="contact-link-label">+63 921 7752 128</span>
         <span class="contact-link-arrow">&#8599;</span>
       </a>
-      <a class="contact-link" href="RESUME_SOMBILLO.pdf" download>
-        <span class="contact-link-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        </span>
-        <span class="contact-link-label">Download Resume</span>
-        <span class="contact-link-arrow">&#8595;</span>
-      </a>
     </div>
   </div>
 </section>
@@ -584,6 +606,34 @@ footer{border-top:1px solid var(--border);padding:1.5rem 2.5rem;display:flex;ali
       </div>
     </div>
     <iframe src="RESUME_SOMBILLO.pdf" title="Resume"></iframe>
+  </div>
+</div>
+
+<!-- PHOTO LIGHTBOX -->
+<div class="photo-lightbox" id="photoLightbox">
+  <button class="photo-lightbox-close" id="photoLightboxClose">&#10005;</button>
+  <img id="photoLightboxImg" src="" alt="Andre D. Sombillo">
+</div>
+
+<!-- PROJECT POPUP MODAL -->
+<div class="project-modal" id="projectModal">
+  <div class="project-modal-inner">
+    <div class="project-modal-header">
+      <span class="project-modal-title" id="projectModalTitle"></span>
+      <button class="modal-close" id="projectModalClose">&#10005;</button>
+    </div>
+    <div class="project-modal-body">
+      <div class="project-modal-slideshow" id="projectModalSlideshow" data-slide="0">
+        <!-- images injected by JS -->
+        <button class="slide-btn prev" id="projectModalPrev">&#8592;</button>
+        <button class="slide-btn next" id="projectModalNext">&#8594;</button>
+        <div class="slide-dots" id="projectModalDots"></div>
+      </div>
+      <div class="project-modal-info">
+        <p class="project-modal-desc" id="projectModalDesc"></p>
+        <div class="project-modal-tags" id="projectModalTags"></div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -639,13 +689,15 @@ footer{border-top:1px solid var(--border);padding:1.5rem 2.5rem;display:flex;ali
     ss.dataset.slide = cur;
   }
   document.querySelectorAll('.slide-btn').forEach(function(btn) {
-    btn.addEventListener('click', function() {
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
       doSlide(btn.closest('.project-slideshow'), btn.classList.contains('next') ? 1 : -1);
     });
   });
   document.querySelectorAll('.project-slideshow').forEach(function(ss) {
     ss.querySelectorAll('.slide-dot').forEach(function(dot, i) {
-      dot.addEventListener('click', function() {
+      dot.addEventListener('click', function(e) {
+        e.stopPropagation();
         var imgs = ss.querySelectorAll('img'), dots = ss.querySelectorAll('.slide-dot');
         var cur = parseInt(ss.dataset.slide) || 0;
         imgs[cur].classList.remove('active'); dots[cur].classList.remove('active');
@@ -665,6 +717,127 @@ footer{border-top:1px solid var(--border);padding:1.5rem 2.5rem;display:flex;ali
     var current = '';
     sections.forEach(function(s) { if (window.scrollY >= s.offsetTop - 100) current = s.id; });
     navLinks.forEach(function(a) { a.classList.toggle('active', a.getAttribute('href') === '#' + current); });
+  });
+
+  // Photo lightbox
+  var profilePhoto = document.getElementById('profilePhoto');
+  var photoLightbox = document.getElementById('photoLightbox');
+  var photoLightboxImg = document.getElementById('photoLightboxImg');
+  var photoLightboxClose = document.getElementById('photoLightboxClose');
+  if (profilePhoto) {
+    profilePhoto.addEventListener('click', function() {
+      photoLightboxImg.src = profilePhoto.src;
+      photoLightbox.classList.add('open');
+    });
+  }
+  photoLightboxClose.addEventListener('click', function() {
+    photoLightbox.classList.remove('open');
+  });
+  photoLightbox.addEventListener('click', function(e) {
+    if (e.target === this) this.classList.remove('open');
+  });
+
+  // Project popup modal
+  var projectModal = document.getElementById('projectModal');
+  var projectModalTitle = document.getElementById('projectModalTitle');
+  var projectModalSlideshow = document.getElementById('projectModalSlideshow');
+  var projectModalDesc = document.getElementById('projectModalDesc');
+  var projectModalTags = document.getElementById('projectModalTags');
+  var projectModalDots = document.getElementById('projectModalDots');
+  var projectModalPrev = document.getElementById('projectModalPrev');
+  var projectModalNext = document.getElementById('projectModalNext');
+  var projectModalClose = document.getElementById('projectModalClose');
+
+  function doModalSlide(dir) {
+    var imgs = projectModalSlideshow.querySelectorAll('img');
+    var dots = projectModalDots.querySelectorAll('.slide-dot');
+    var cur = parseInt(projectModalSlideshow.dataset.slide) || 0;
+    imgs[cur].classList.remove('active'); dots[cur].classList.remove('active');
+    cur = (cur + dir + imgs.length) % imgs.length;
+    imgs[cur].classList.add('active'); dots[cur].classList.add('active');
+    projectModalSlideshow.dataset.slide = cur;
+  }
+
+  projectModalPrev.addEventListener('click', function(e) { e.stopPropagation(); doModalSlide(-1); });
+  projectModalNext.addEventListener('click', function(e) { e.stopPropagation(); doModalSlide(1); });
+
+  document.querySelectorAll('.project-card').forEach(function(card) {
+    card.addEventListener('click', function(e) {
+      // Don't open modal if clicking slide buttons or dots inside the card
+      if (e.target.closest('.slide-btn') || e.target.closest('.slide-dot')) return;
+
+      // Get source slideshow data
+      var ss = card.querySelector('.project-slideshow');
+      var cardImgs = ss.querySelectorAll('img');
+      var cardCur = parseInt(ss.dataset.slide) || 0;
+
+      // Get text content
+      var name = card.querySelector('.project-name').textContent;
+      var desc = card.querySelector('.project-desc').textContent;
+      var tagEls = card.querySelectorAll('.project-tag');
+
+      // Set title
+      projectModalTitle.textContent = name;
+
+      // Set description
+      projectModalDesc.textContent = desc;
+
+      // Set tags
+      projectModalTags.innerHTML = '';
+      tagEls.forEach(function(t) {
+        var span = document.createElement('span');
+        span.className = 'project-tag';
+        span.textContent = t.textContent;
+        projectModalTags.appendChild(span);
+      });
+
+      // Build slideshow images
+      // Remove old images (keep buttons and dots container)
+      projectModalSlideshow.querySelectorAll('img').forEach(function(img) { img.remove(); });
+      projectModalDots.innerHTML = '';
+      projectModalSlideshow.dataset.slide = cardCur;
+      projectModalSlideshow.dataset.label = ss.dataset.label || '';
+
+      cardImgs.forEach(function(srcImg, i) {
+        var img = document.createElement('img');
+        img.src = srcImg.src;
+        img.alt = srcImg.alt;
+        if (i === cardCur) img.classList.add('active');
+        // Insert before the prev button
+        projectModalSlideshow.insertBefore(img, projectModalPrev);
+
+        var dot = document.createElement('button');
+        dot.className = 'slide-dot' + (i === cardCur ? ' active' : '');
+        dot.addEventListener('click', function(e) {
+          e.stopPropagation();
+          var imgs = projectModalSlideshow.querySelectorAll('img');
+          var dots = projectModalDots.querySelectorAll('.slide-dot');
+          var cur = parseInt(projectModalSlideshow.dataset.slide) || 0;
+          imgs[cur].classList.remove('active'); dots[cur].classList.remove('active');
+          imgs[i].classList.add('active'); dots[i].classList.add('active');
+          projectModalSlideshow.dataset.slide = i;
+        });
+        projectModalDots.appendChild(dot);
+      });
+
+      projectModal.classList.add('open');
+    });
+  });
+
+  projectModalClose.addEventListener('click', function() {
+    projectModal.classList.remove('open');
+  });
+  projectModal.addEventListener('click', function(e) {
+    if (e.target === this) this.classList.remove('open');
+  });
+
+  // Close modals on Escape key
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      document.getElementById('resumeModal').classList.remove('open');
+      photoLightbox.classList.remove('open');
+      projectModal.classList.remove('open');
+    }
   });
 })();
 </script>
