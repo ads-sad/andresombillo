@@ -130,6 +130,18 @@ section{padding:5.5rem 2.5rem;max-width:1000px;margin:0 auto}
 .edu-school{font-size:.86rem;color:var(--text2);margin-bottom:.18rem}
 .edu-year{font-family:'Space Mono',monospace;font-size:.63rem;color:var(--text3);letter-spacing:.06em}
 
+/* EDUCATION ACHIEVEMENT THUMBNAILS (mirrors projects-grid look) */
+.achievements-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.25rem}
+.achievement-thumb-card{border:1px solid var(--border);border-radius:10px;overflow:hidden;background:var(--bg2);transition:border-color .25s,transform .25s;display:flex;flex-direction:column;cursor:pointer}
+.achievement-thumb-card:hover{border-color:var(--border-h);transform:translateY(-3px)}
+.achievement-thumb-img-wrap{width:100%;aspect-ratio:4/3;min-height:155px;position:relative;overflow:hidden;background:var(--bg3);border-bottom:1px solid var(--border)}
+.achievement-thumb-img-wrap::after{content:attr(data-label);position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Space Mono',monospace;font-size:.63rem;color:var(--text3);letter-spacing:.1em;text-transform:uppercase;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:24px 24px;z-index:0}
+.achievement-thumb-img-wrap img{position:relative;width:100%;height:100%;object-fit:cover;z-index:1;display:block}
+.achievement-thumb-body{padding:1.1rem 1.25rem 1.25rem;flex:1;display:flex;flex-direction:column}
+.achievement-thumb-title{font-family:'Syne',sans-serif;font-size:.98rem;font-weight:700;color:var(--text);margin-bottom:.3rem}
+.achievement-thumb-issuer{font-family:'Space Mono',monospace;font-size:.62rem;color:var(--text3);letter-spacing:.06em;margin-bottom:.65rem}
+.achievement-thumb-desc{font-size:.83rem;color:var(--text2);line-height:1.7;flex:1}
+
 /* PROJECTS */
 .projects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(400px,1fr));gap:1.25rem}
 .project-card{border:1px solid var(--border);border-radius:10px;overflow:hidden;background:var(--bg2);transition:border-color .25s,transform .25s;display:flex;flex-direction:column;cursor:pointer}
@@ -222,6 +234,18 @@ footer{border-top:1px solid var(--border);padding:1.5rem 2.5rem;display:flex;ali
 .project-modal-desc{font-size:.92rem;color:var(--text2);line-height:1.8;margin-bottom:1.1rem}
 .project-modal-tags{display:flex;flex-wrap:wrap;gap:.35rem}
 
+/* ACHIEVEMENT (CERTIFICATE) MODAL */
+.achievement-modal{display:none;position:fixed;inset:0;z-index:600;background:rgba(0,0,0,.92);align-items:center;justify-content:center;padding:1.5rem}
+.achievement-modal.open{display:flex}
+.achievement-modal-inner{width:100%;max-width:640px;max-height:92vh;background:var(--bg2);border:1px solid var(--border);border-radius:12px;display:flex;flex-direction:column;overflow:hidden}
+.achievement-modal-img-wrap{width:100%;background:var(--bg3);display:flex;align-items:center;justify-content:center;overflow:auto;border-bottom:1px solid var(--border)}
+.achievement-modal-img-wrap img{max-width:100%;max-height:65vh;object-fit:contain;display:block}
+.achievement-modal-body{padding:1.25rem 1.4rem 1.5rem}
+.achievement-modal-title{font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:700;color:var(--text);margin-bottom:.5rem}
+.achievement-modal-desc{font-size:.86rem;color:var(--text2);line-height:1.75}
+.achievement-modal-close{position:absolute;top:1.25rem;right:1.25rem;background:var(--bg2);border:1px solid var(--border);color:var(--text2);cursor:pointer;width:36px;height:36px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:16px;transition:border-color .2s,color .2s;z-index:2}
+.achievement-modal-close:hover{border-color:var(--border-h);color:var(--text)}
+
 /* MOBILE */
 @media(max-width:750px){
   /* Nav */
@@ -280,6 +304,10 @@ footer{border-top:1px solid var(--border);padding:1.5rem 2.5rem;display:flex;ali
   /* Resume modal */
   .resume-modal{padding:.5rem}
   .resume-modal-inner{height:95vh;border-radius:8px}
+
+  /* Achievement modal */
+  .achievement-modal{padding:.75rem}
+  .achievement-modal-inner{max-height:95vh}
 }
 </style>
 </head>
@@ -287,9 +315,10 @@ footer{border-top:1px solid var(--border);padding:1.5rem 2.5rem;display:flex;ali
 
 <!-- NAV -->
 <nav>
-  <a class="nav-logo" href="#hero"><span>ads</span>.dev</a>
+  <a class="nav-logo" href="#hero"><span>HOME</span></a>
   <ul class="nav-links">
     <li><a href="#about">About</a></li>
+    <li><a href="#education">Education</a></li>
     <li><a href="#skills">Skills</a></li>
     <li><a href="#experience">Experience</a></li>
     <li><a href="#projects">Projects</a></li>
@@ -307,6 +336,7 @@ footer{border-top:1px solid var(--border);padding:1.5rem 2.5rem;display:flex;ali
 <!-- MOBILE DRAWER -->
 <nav class="mobile-nav" id="mobileNav">
   <a href="#about">About</a>
+  <a href="#education">Education</a>
   <a href="#skills">Skills</a>
   <a href="#experience">Experience</a>
   <a href="#projects">Projects</a>
@@ -376,10 +406,50 @@ footer{border-top:1px solid var(--border);padding:1.5rem 2.5rem;display:flex;ali
   </div>
 </section>
 
+<!-- EDUCATION -->
+<section id="education">
+  <div class="section-header fade-in">
+    <span class="section-num">02</span>
+    <h2 class="section-title">Education</h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="fade-in" style="display:flex;flex-direction:column;gap:1.75rem;">
+    <div class="edu-card">
+      <div>
+        <div class="edu-degree">BS Computer Engineering</div>
+        <div class="edu-school">National University – Dasmariñas</div>
+        <div class="edu-year">Graduate (2022-2026)</div>
+      </div>
+    </div>
+    <div class="achievements-grid">
+      <div class="achievement-thumb-card achievement-card" data-img="images/deans-lister-cert.jpg" data-title="Dean's Lister — 2nd Honors" data-desc="Certificate of Recognition awarded for academic excellence, achieving Dean's Lister 2nd Honors standing with a General Weighted Average (GWA) of 3.46.">
+        <div class="achievement-thumb-img-wrap" data-label="Dean's Lister Certificate">
+          <img src="images/deans-lister-cert.jpg" alt="Dean's Lister Certificate" onerror="this.style.display='none'">
+        </div>
+        <div class="achievement-thumb-body">
+          <div class="achievement-thumb-title">Dean's Lister — 2nd Honors</div>
+          <div class="achievement-thumb-issuer">National University – Dasmariñas · GWA 3.46</div>
+          <p class="achievement-thumb-desc">Certificate of Recognition awarded for academic excellence, achieving Dean's Lister 2nd Honors standing with a General Weighted Average (GWA) of 3.46.</p>
+        </div>
+      </div>
+      <div class="achievement-thumb-card achievement-card" data-img="images/capstone-award-cert.jpg" data-title="Best Capstone Presenter" data-desc="Certificate of Recognition for Student Excellence in Capstone Presentation, awarded for outstanding delivery and defense of the capstone research project.">
+        <div class="achievement-thumb-img-wrap" data-label="Capstone Award Certificate">
+          <img src="images/capstone-award-cert.jpg" alt="Capstone Award Certificate" onerror="this.style.display='none'">
+        </div>
+        <div class="achievement-thumb-body">
+          <div class="achievement-thumb-title">Best Capstone Presenter</div>
+          <div class="achievement-thumb-issuer">Student Excellence Award</div>
+          <p class="achievement-thumb-desc">Certificate of Recognition for Student Excellence in Capstone Presentation, awarded for outstanding delivery and defense of the capstone research project.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- SKILLS -->
 <section id="skills">
   <div class="section-header fade-in">
-    <span class="section-num">02</span>
+    <span class="section-num">03</span>
     <h2 class="section-title">Skills</h2>
     <div class="section-line"></div>
   </div>
@@ -452,7 +522,7 @@ footer{border-top:1px solid var(--border);padding:1.5rem 2.5rem;display:flex;ali
 <!-- EXPERIENCE -->
 <section id="experience">
   <div class="section-header fade-in">
-    <span class="section-num">03</span>
+    <span class="section-num">04</span>
     <h2 class="section-title">Experience</h2>
     <div class="section-line"></div>
   </div>
@@ -468,12 +538,12 @@ footer{border-top:1px solid var(--border);padding:1.5rem 2.5rem;display:flex;ali
           <li>Handled Microsoft 365 Administration/Admin Centre (account creation, mail handling, password reset, license tracking, domain creation, user-lifecycle, permission access, etc.)</li>
           <li>Troubleshoot hardware and software issues for end-users, improving resolution time.</li>
           <li>Maintained IT inventory and asset management systems, ensuring up-to-date records.</li>
-          <li>Conducted routine maintenance on computer systems and peripherals.</li>
           <li>Collaborated with colleagues to document IT processes and procedures.</li>
           <li>Aided in user account creation and permissions management across systems.</li>
           <li>Installed, configured, and tested routers, switches, firewalls, and servers.</li>
           <li>Updated hardware, software, and security protections with the latest standards.</li>
           <li>Resolved daily IT desktop client issues across multiple departments and offices.</li>
+          <li>Created and maintained technical documentation for IT processes, system configurations, troubleshooting procedures, and asset records to ensure consistent support practices and facilitate knowledge transfer across the IT team.</li>
         </ul>
       </div>
     </div>
@@ -483,7 +553,7 @@ footer{border-top:1px solid var(--border);padding:1.5rem 2.5rem;display:flex;ali
 <!-- PROJECTS -->
 <section id="projects">
   <div class="section-header fade-in">
-    <span class="section-num">04</span>
+    <span class="section-num">05</span>
     <h2 class="section-title">Projects</h2>
     <div class="section-line"></div>
   </div>
@@ -597,7 +667,7 @@ footer{border-top:1px solid var(--border);padding:1.5rem 2.5rem;display:flex;ali
 <!-- CERTIFICATIONS -->
 <section id="certifications">
   <div class="section-header fade-in">
-    <span class="section-num">05</span>
+    <span class="section-num">06</span>
     <h2 class="section-title">Certifications</h2>
     <div class="section-line"></div>
   </div>
@@ -624,7 +694,7 @@ footer{border-top:1px solid var(--border);padding:1.5rem 2.5rem;display:flex;ali
 <!-- CONTACT -->
 <section id="contact">
   <div class="section-header fade-in">
-    <span class="section-num">06</span>
+    <span class="section-num">07</span>
     <h2 class="section-title">Contact</h2>
     <div class="section-line"></div>
   </div>
@@ -709,6 +779,20 @@ footer{border-top:1px solid var(--border);padding:1.5rem 2.5rem;display:flex;ali
         <p class="project-modal-desc" id="projectModalDesc"></p>
         <div class="project-modal-tags" id="projectModalTags"></div>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- ACHIEVEMENT (CERTIFICATE) MODAL -->
+<div class="achievement-modal" id="achievementModal">
+  <button class="achievement-modal-close" id="achievementModalClose">&#10005;</button>
+  <div class="achievement-modal-inner">
+    <div class="achievement-modal-img-wrap">
+      <img id="achievementModalImg" src="" alt="">
+    </div>
+    <div class="achievement-modal-body">
+      <div class="achievement-modal-title" id="achievementModalTitle"></div>
+      <p class="achievement-modal-desc" id="achievementModalDesc"></p>
     </div>
   </div>
 </div>
@@ -921,12 +1005,36 @@ footer{border-top:1px solid var(--border);padding:1.5rem 2.5rem;display:flex;ali
     if (e.target === this) this.classList.remove('open');
   });
 
+  // Achievement (certificate) modal
+  var achievementModal = document.getElementById('achievementModal');
+  var achievementModalImg = document.getElementById('achievementModalImg');
+  var achievementModalTitle = document.getElementById('achievementModalTitle');
+  var achievementModalDesc = document.getElementById('achievementModalDesc');
+  var achievementModalClose = document.getElementById('achievementModalClose');
+
+  document.querySelectorAll('.achievement-card').forEach(function(card) {
+    card.addEventListener('click', function() {
+      achievementModalImg.src = card.dataset.img;
+      achievementModalImg.alt = card.dataset.title;
+      achievementModalTitle.textContent = card.dataset.title;
+      achievementModalDesc.textContent = card.dataset.desc;
+      achievementModal.classList.add('open');
+    });
+  });
+  achievementModalClose.addEventListener('click', function() {
+    achievementModal.classList.remove('open');
+  });
+  achievementModal.addEventListener('click', function(e) {
+    if (e.target === this) this.classList.remove('open');
+  });
+
   // Close modals on Escape key
   document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') {
       document.getElementById('resumeModal').classList.remove('open');
       photoLightbox.classList.remove('open');
       projectModal.classList.remove('open');
+      achievementModal.classList.remove('open');
       mobileNav.classList.remove('open');
       hamburger.classList.remove('open');
     }
